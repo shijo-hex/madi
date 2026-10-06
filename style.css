@@ -1,0 +1,214 @@
+/* ==========================================================================
+   madi.me — shared stylesheet
+   ========================================================================== */
+:root{
+  --bg:        #faf7f2;
+  --ink:       #22221f;
+  --muted:     #726d63;
+  --surface:   #ffffff;
+  --border:    #e7e1d6;
+  --radius:    20px;
+  --font-display: 'Baloo 2', 'Nunito', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --ease: cubic-bezier(.34,1.56,.64,1);
+  --ease-soft: cubic-bezier(.22,1,.36,1);
+  --dur: 260ms;
+
+  /* Version A — Lazy Day: warm cream / peach / orange / soft blue / rose */
+  --a-bg:#fff2e2; --a-ink:#3a2e28; --a-accent:#ff9f6b; --a-accent2:#8fb8de; --a-rose:#f4a3b0; --a-surface:#fffaf4;
+  /* Version B — Little World: sage / soft green / sky blue / warm yellow / lavender */
+  --b-bg:#eaf3ea; --b-ink:#263226; --b-accent:#7fb685; --b-sky:#a9d6e5; --b-yellow:#f4d06f; --b-lavender:#c9b8e8; --b-surface:#f6faf4;
+  /* Version C — Procrastination Monster: dark navy / purple / electric blue / warm yellow / red-pink */
+  --c-bg:#13162c; --c-ink:#f1f1fb; --c-accent:#8b5cf6; --c-blue:#4c7cff; --c-yellow:#ffd23f; --c-pink:#ff5277; --c-surface:#1b1f3c;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ background:var(--bg); }
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  min-height:100vh; min-height:100svh;
+}
+img,svg{ max-width:100%; display:block; }
+button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+h1,h2,h3,p{ margin:0; }
+a{ color:inherit; }
+:focus-visible{ outline:3px solid var(--c-accent,#8b5cf6); outline-offset:3px; border-radius:6px; }
+.visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+#app{ min-height:100vh; min-height:100svh; display:flex; flex-direction:column; }
+.topbar{ display:flex; align-items:center; justify-content:space-between; padding:16px clamp(16px,5vw,40px); }
+.topbar .brand{ font-family:var(--font-display); font-weight:700; font-size:18px; }
+.topbar .back-link{ font-family:var(--font-mono); font-size:12px; text-decoration:underline; color:var(--muted); }
+#stage{ flex:1; position:relative; display:flex; flex-direction:column; }
+
+/* ============================================================
+   SELECTOR SCREEN
+   ============================================================ */
+.selector{ padding:24px clamp(16px,5vw,40px) 60px; max-width:980px; margin:0 auto; width:100%; }
+.selector h1{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.8rem,5vw,2.6rem); text-align:center; }
+.selector .sub{ text-align:center; color:var(--muted); margin-top:10px; font-size:1.05rem; }
+.mode-grid{ display:grid; grid-template-columns:1fr; gap:20px; margin-top:40px; }
+@media(min-width:760px){ .mode-grid{ grid-template-columns:repeat(3,1fr); } }
+.mode-card{
+  border-radius:24px; border:2px solid var(--border); background:var(--surface);
+  padding:22px; display:flex; flex-direction:column; gap:14px; text-align:left;
+  transition:transform var(--dur) var(--ease-soft), box-shadow var(--dur) var(--ease-soft);
+  box-shadow:0 2px 0 var(--border);
+}
+.mode-card:hover{ transform:translateY(-4px); box-shadow:0 10px 24px rgba(0,0,0,.08); }
+.mode-card .icon{ width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.mode-card h2{ font-family:var(--font-display); font-weight:700; font-size:1.3rem; }
+.mode-card p.desc{ color:var(--muted); font-size:.92rem; min-height:40px; }
+.mode-card .play-btn{ align-self:flex-start; font-family:var(--font-mono); font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.06em; padding:10px 18px; border-radius:99px; color:#fff; }
+
+.mode-card.-a{ border-color:var(--a-accent); } .mode-card.-a .icon{ background:var(--a-bg); } .mode-card.-a .play-btn{ background:var(--a-accent); }
+.mode-card.-b{ border-color:var(--b-accent); } .mode-card.-b .icon{ background:var(--b-bg); } .mode-card.-b .play-btn{ background:var(--b-accent); }
+.mode-card.-c{ border-color:var(--c-accent); } .mode-card.-c .icon{ background:var(--c-bg); } .mode-card.-c .play-btn{ background:var(--c-accent); color:#fff; }
+
+/* tiny animated preview icons, pure CSS */
+.preview-shape{ width:34px; height:34px; position:relative; }
+.preview-shape.-sleep{ background:var(--a-accent); border-radius:40% 60% 55% 45%/50% 45% 55% 50%; animation:drift 3.4s ease-in-out infinite; }
+.preview-shape.-leaf{ background:var(--b-accent); border-radius:0 80% 0 80%; animation:sway 3s ease-in-out infinite; }
+.preview-shape.-monster{ background:var(--c-accent); border-radius:50% 50% 45% 45%/60% 60% 40% 40%; animation:pulse-sm 1.6s ease-in-out infinite; }
+@keyframes drift{ 0%,100%{ transform:translateY(0) rotate(0); } 50%{ transform:translateY(-4px) rotate(4deg); } }
+@keyframes sway{ 0%,100%{ transform:rotate(-6deg); } 50%{ transform:rotate(6deg); } }
+@keyframes pulse-sm{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.12); } }
+
+/* ============================================================
+   PLAY SCREEN — per-mode theme via [data-mode]
+   ============================================================ */
+#stage[data-mode="lazy-day"]{ background:var(--a-bg); color:var(--a-ink); }
+#stage[data-mode="little-world"]{ background:var(--b-bg); color:var(--b-ink); }
+#stage[data-mode="monster"]{ background:var(--c-bg); color:var(--c-ink); }
+
+.scene{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px clamp(16px,5vw,48px) 48px; position:relative; gap:22px; text-align:center; }
+.scene .scene-clock{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; opacity:.6; position:absolute; top:16px; left:50%; transform:translateX(-50%); }
+.room{ width:min(560px,92vw); min-height:260px; border-radius:28px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; transition:background 500ms ease; }
+.room.-bright{ background:linear-gradient(180deg, #ffe4b8, var(--a-surface)); }
+.room .floor{ position:absolute; left:0; right:0; bottom:0; height:30%; opacity:.35; }
+.dialogue{ font-family:var(--font-display); font-weight:600; font-size:clamp(1.1rem,3vw,1.5rem); max-width:40ch; min-height:1.4em; }
+.dialogue small{ display:block; font-family:var(--font-body); font-weight:400; font-size:.7em; opacity:.65; margin-top:4px; }
+.hint{ font-family:var(--font-mono); font-size:12px; opacity:.55; letter-spacing:.04em; }
+.scene-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.action-btn{
+  padding:13px 22px; border-radius:99px; font-weight:700; font-size:14px; border:2px solid currentColor;
+  transition:transform var(--dur) var(--ease-soft), background-color var(--dur) ease;
+}
+.action-btn:hover{ transform:translateY(-2px); }
+.action-btn.-solid{ background:currentColor; }
+.action-btn.-solid span{ color:var(--bg); }
+
+/* toast/feedback particle text, e.g. "BONK", "+1 ENERGY" */
+.poptext{
+  position:absolute; font-family:var(--font-display); font-weight:700; font-size:1.1rem;
+  pointer-events:none; animation:pop-up 900ms var(--ease-soft) forwards;
+}
+@keyframes pop-up{ 0%{ opacity:0; transform:translateY(6px) scale(.7); } 25%{ opacity:1; transform:translateY(-6px) scale(1.05); } 100%{ opacity:0; transform:translateY(-34px) scale(1); } }
+
+/* ============================================================
+   MADI CHARACTER — CSS-only expressive sprite
+   ============================================================ */
+.madi{ position:relative; width:120px; height:130px; margin:0 auto; transition:transform var(--dur) var(--ease-soft); }
+.madi-shadow{ position:absolute; left:50%; bottom:-6px; width:70px; height:14px; background:rgba(0,0,0,.14); border-radius:50%; transform:translateX(-50%); filter:blur(1px); }
+.madi-body{
+  position:absolute; inset:14px 10px 20px; border-radius:46% 46% 50% 50%/55% 55% 45% 45%;
+  background:var(--madi-color, #ff9f6b); display:flex; align-items:center; justify-content:center;
+  transition:background-color var(--dur) ease, transform var(--dur) var(--ease-soft);
+}
+.madi-eye{ position:absolute; top:40%; width:10px; height:12px; border-radius:50%; background:#22221f; transition:height 180ms ease, transform 180ms ease; }
+.madi-eye.-l{ left:38%; } .madi-eye.-r{ right:38%; }
+.madi-cheek{ position:absolute; top:52%; width:14px; height:9px; border-radius:50%; background:#ff8a8a; opacity:0; transition:opacity var(--dur) ease; }
+.madi-cheek.-l{ left:22%; } .madi-cheek.-r{ right:22%; }
+.madi-mouth{ position:absolute; top:58%; left:50%; width:22px; height:10px; border:3px solid #22221f; border-top:none; border-radius:0 0 20px 20px; transform:translateX(-50%); transition:all 200ms ease; }
+
+.madi[data-state="sleeping"] .madi-eye{ height:2px; top:44%; }
+.madi[data-state="sleeping"] .madi-mouth{ width:12px; height:2px; border:none; background:#22221f; border-radius:2px; }
+.madi[data-state="idle"] .madi-eye{ height:12px; }
+.madi[data-state="confused"] .madi-eye.-l{ transform:translateY(-2px); }
+.madi[data-state="confused"] .madi-mouth{ width:16px; height:6px; border-radius:50%; border-top:3px solid #22221f; border-bottom:none; }
+.madi[data-state="annoyed"] .madi-eye{ height:4px; top:42%; }
+.madi[data-state="annoyed"] .madi-mouth{ width:20px; height:3px; border:none; background:#22221f; border-radius:2px; }
+.madi[data-state="happy"] .madi-mouth{ width:26px; height:14px; border-radius:0 0 26px 26px; }
+.madi[data-state="happy"] .madi-cheek{ opacity:1; }
+.madi[data-state="excited"] .madi-mouth{ width:24px; height:20px; border-radius:50%; border:3px solid #22221f; }
+.madi[data-state="excited"] .madi-cheek{ opacity:1; }
+.madi[data-state="surprised"] .madi-eye{ height:14px; width:14px; }
+.madi[data-state="surprised"] .madi-mouth{ width:14px; height:14px; border-radius:50%; border:3px solid #22221f; }
+.madi[data-state="celebrating"] .madi-mouth{ width:26px; height:14px; border-radius:0 0 26px 26px; }
+.madi[data-state="celebrating"] .madi-cheek{ opacity:1; }
+.madi[data-state="tired"] .madi-eye{ height:4px; top:44%; }
+.madi[data-state="walking"] .madi-mouth{ width:18px; height:8px; border-radius:0 0 18px 18px; }
+
+.madi.-bounce{ animation:char-bounce 520ms var(--ease); }
+.madi.-shake{ animation:char-shake 420ms ease; }
+.madi.-wobble{ animation:char-wobble 1.8s ease-in-out infinite; }
+@keyframes char-bounce{ 0%{transform:scale(1,1) translateY(0);} 30%{transform:scale(1.08,.9) translateY(4px);} 55%{transform:scale(.94,1.1) translateY(-10px);} 80%{transform:scale(1.03,.97) translateY(0);} 100%{transform:scale(1,1) translateY(0);} }
+@keyframes char-shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px) rotate(-3deg);} 75%{transform:translateX(6px) rotate(3deg);} }
+@keyframes char-wobble{ 0%,100%{transform:rotate(-2deg);} 50%{transform:rotate(2deg);} }
+
+/* a generic object the player taps: alarm clock, toast, sock, prop, etc. */
+.prop{
+  border:none; background:var(--surface); border-radius:18px; padding:14px 16px;
+  box-shadow:0 2px 0 var(--border); font-size:28px; line-height:1; display:inline-flex; align-items:center; justify-content:center;
+  transition:transform var(--dur) var(--ease);
+}
+.prop:hover{ transform:translateY(-3px); }
+.prop:active{ transform:scale(.92); }
+.prop.-moving{ position:absolute; }
+.prop.-hit{ animation:prop-hit 420ms var(--ease); }
+@keyframes prop-hit{ 0%{transform:scale(1);} 40%{transform:scale(1.3) rotate(-8deg);} 100%{transform:scale(0); opacity:0;} }
+
+.hotspots{ display:grid; grid-template-columns:repeat(auto-fit,minmax(84px,1fr)); gap:12px; width:min(480px,92vw); }
+.hotspot{ background:var(--surface); border-radius:16px; padding:16px 8px; font-size:26px; box-shadow:0 2px 0 var(--border); transition:transform 160ms ease; }
+.hotspot:hover{ transform:translateY(-2px); }
+.hotspot.-found{ opacity:.35; pointer-events:none; }
+.hotspot.-packed{ opacity:.35; pointer-events:none; }
+
+/* ============================================================
+   VERSION B — world build-up pieces
+   ============================================================ */
+.world-scene{ width:min(560px,92vw); min-height:280px; border-radius:28px; background:var(--b-surface); position:relative; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; padding-bottom:18px; transition:background-color 900ms ease; }
+.world-scene.-dusk{ background:#e7d7b8; } .world-scene.-night{ background:#273357; }
+.w-house{ position:absolute; left:14%; bottom:18%; width:120px; height:90px; background:#fff; border-radius:10px 10px 0 0; box-shadow:0 2px 0 var(--border); }
+.w-house::before{ content:''; position:absolute; top:-30px; left:-10px; right:-10px; height:40px; background:#e07a5f; clip-path:polygon(0 100%,50% 0,100% 100%); }
+.w-window{ position:absolute; top:20px; left:30px; width:24px; height:24px; background:#cfe3ea; border-radius:4px; transition:background-color 500ms ease, box-shadow 500ms ease; }
+.w-window.-lit{ background:#ffe9a8; box-shadow:0 0 14px #ffe9a8; }
+.w-plant{ position:absolute; left:46%; bottom:16%; width:18px; height:4px; background:#6b4a33; border-radius:2px; }
+.w-plant i{ position:absolute; bottom:4px; left:9px; width:4px; background:#7fb685; border-radius:40% 40% 2px 2px; transform-origin:bottom center; transition:height 700ms var(--ease-soft), background-color 700ms ease; }
+.w-shelf{ position:absolute; right:16%; bottom:34%; width:70px; height:10px; background:#caa46b; border-radius:3px; }
+.w-shelf .w-book{ position:absolute; bottom:10px; width:8px; height:0; background:#c9b8e8; border-radius:1px 1px 0 0; transition:height 500ms var(--ease-soft); }
+.w-rug{ position:absolute; bottom:6%; width:0; height:14px; background:#f4d06f; border-radius:8px; transition:width 700ms var(--ease-soft); }
+.w-star{ position:absolute; width:3px; height:3px; background:#fff; border-radius:50%; opacity:0; transition:opacity 600ms ease; }
+
+/* ============================================================
+   VERSION C — HUD + monster
+   ============================================================ */
+.c-hud{ display:flex; gap:20px; justify-content:center; flex-wrap:wrap; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; }
+.c-hud .bar-wrap{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; }
+.c-bar{ width:160px; height:10px; border-radius:99px; background:rgba(255,255,255,.12); overflow:hidden; }
+.c-bar i{ display:block; height:100%; border-radius:99px; transition:width 420ms var(--ease-soft); }
+.c-bar.-energy i{ background:var(--c-blue); }
+.c-bar.-monster i{ background:var(--c-pink); }
+.monster{ width:110px; height:100px; position:relative; margin:0 auto; transition:transform 420ms var(--ease-soft); }
+.monster-body{ position:absolute; inset:0; background:var(--c-accent); border-radius:48% 48% 50% 50%/60% 60% 40% 40%; transition:transform 420ms var(--ease-soft); }
+.monster-eye{ position:absolute; top:34%; width:14px; height:14px; border-radius:50%; background:#fff; }
+.monster-eye::after{ content:''; position:absolute; inset:3px; border-radius:50%; background:#13162c; }
+.monster-eye.-l{ left:28%; } .monster-eye.-r{ right:28%; }
+.monster.-shrink{ animation:monster-hit 420ms var(--ease); }
+@keyframes monster-hit{ 0%{transform:scale(1);} 40%{transform:scale(1.15) rotate(6deg);} 100%{transform:scale(1);} }
+.monster.-gone{ opacity:0; transform:scale(.2); }
+.distraction-btn{ background:var(--c-surface); color:var(--c-ink); border:2px solid rgba(255,255,255,.14); border-radius:14px; padding:12px 16px; font-size:13px; }
+.distraction-btn.-decoy{ opacity:.8; }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+body.reduced-motion .madi.-wobble, body.reduced-motion .prop.-moving{ animation:none !important; }
